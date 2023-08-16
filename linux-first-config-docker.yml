@@ -1,0 +1,8 @@
+# Playbook Ansible
+- hosts: all
+  gather_facts: true
+  become: true
+  remote_user: ansible
+  roles:
+    - { role: Linux-first-config }
+    - { role: first-config-srv-docker }

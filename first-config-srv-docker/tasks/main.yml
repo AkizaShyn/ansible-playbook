@@ -1,0 +1,23 @@
+---
+# tasks file for first-config-srv-docker
+  - name: Add repository
+    ansible.builtin.yum_repository:
+     name: docker-ce
+     description: docker-ce repository
+     baseurl: https://download.docker.com/linux/centos/docker-ce.repo
+     state: present
+
+  - name: Install the latest version of docker and docker compose
+    ansible.builtin.dnf:
+     name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-compose
+     state: latest
+
+  - name: Start service docker, if not started
+    ansible.builtin.service:
+     name: docker
+     state: started
+     enabled: yes

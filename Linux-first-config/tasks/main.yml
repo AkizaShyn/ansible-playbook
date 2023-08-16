@@ -1,6 +1,6 @@
 ---
 # tasks file for Linux-first-config
-  - name: Install the latest version of Apache
+  - name: Update all packages
     ansible.builtin.dnf:
      name: '*'
      state: latest
