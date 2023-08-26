@@ -4,5 +4,5 @@
   become: true
   remote_user: ansible
   roles:
-    - { role: Linux-first-config }
+    #- { role: Linux-first-config }
     - { role: first-config-srv-docker }
