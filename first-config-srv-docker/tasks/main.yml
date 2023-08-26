@@ -1,44 +1,46 @@
 ---
 # tasks file for first-config-srv-docker
-- name: Add Docker repository on Rocky Linux
-  ansible.builtin.when: ansible_distribution == 'Rocky'
-  ansible.builtin.yum_repository:
-    name: docker-ce
-    description: docker-ce repository
-    baseurl: https://download.docker.com/linux/centos/7/$basearch/stable
-    enabled: yes
-    gpgcheck: yes
-    gpgkey: https://download.docker.com/linux/centos/gpg
+  - name: Add Docker repository on Rocky Linux
+    ansible.builtin.block:
+      ansible.builtin.when: ansible_distribution == 'Rocky'
+      ansible.builtin.yum_repository:
+        name: docker-ce
+        description: docker-ce repository
+        baseurl: https://download.docker.com/linux/centos/7/$basearch/stable
+        enabled: yes
+        gpgcheck: yes
+        gpgkey: https://download.docker.com/linux/centos/gpg
 
-- name: Add Docker repository on Debian
-  ansible.builtin.when: ansible_distribution == 'Debian'
-  ansible.builtin.apt_repository:
-    repo: "deb [arch=amd64] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable"
-    state: present
-    filename: docker-ce
-    update_cache: yes
-    cache_valid_time: 3600
-    gpg_key: https://download.docker.com/linux/debian/gpg
+  - name: Add Docker repository on Debian
+    ansible.builtin.block:
+      ansible.builtin.when: ansible_distribution == 'Debian'
+      ansible.builtin.apt_repository:
+        repo: "deb [arch=amd64] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable"
+        state: present
+        filename: docker-ce
+        update_cache: yes
+        cache_valid_time: 3600
+        gpg_key: https://download.docker.com/linux/debian/gpg
 
-- name: Install required packages
-  ansible.builtin.package:
-    name:
-     - libcgroup
-     - docker-ce
-     - docker-ce-cli
-     - containerd.io
-     - docker-compose
-    state: latest
+  - name: Install required packages
+    ansible.builtin.package:
+      name:
+        - libcgroup
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io
+        - docker-compose
+      state: latest
 
-- name: Start and enable Docker service
-  ansible.builtin.service:
-    name: docker
-    state: started
-    enabled: yes
+  - name: Start and enable Docker service
+    ansible.builtin.service:
+      name: docker
+      state: started
+      enabled: yes
 
-- name: Run Docker Hello World container
-  ansible.builtin.docker_container:
-    name: hello-world
-    image: hello-world
-    state: started
+  - name: Run Docker Hello World container
+    ansible.builtin.docker_container:
+      name: hello-world
+      image: hello-world
+      state: started
 ...
