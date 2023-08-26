@@ -1,13 +1,14 @@
 ---
 # tasks file for Linux-first-config
-  - name: Update all packages
-    ansible.builtin.dnf:
-     name: '*'
-     state: latest
-     update_cache: true
-     update_only: true
-    register: dnfupdate_status
+- name: Update all packages
+  ansible.builtin.dnf:
+    name: '*'
+    state: latest
+    update_cache: true
+    update_only: true
+  register: dnfupdate_status
 
-  - name: Remove packages not needed anymore
-    ansible.builtin.dnf:
-     autoremove: true  
+- name: Remove packages not needed anymore
+  ansible.builtin.dnf:
+    autoremove: true  
+...        
