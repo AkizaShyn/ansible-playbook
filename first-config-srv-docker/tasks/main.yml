@@ -6,7 +6,6 @@
       state: present
       filename: docker-ce
       update_cache: yes
-      cache_valid_time: 0
 
   - name: Install required packages
     ansible.builtin.package:
