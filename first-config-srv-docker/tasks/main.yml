@@ -11,9 +11,11 @@
     url: https://download.docker.com/linux/debian/gpg
     state: present
 
-- name: Add Docker GPG key to APT keyring
+- name: Download Docker GPG key
   become: yes
-  ansible.builtin.shell: gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg /etc/apt/trusted.gpg.d/docker.gpg
+  ansible.builtin.get_url:
+    url: https://download.docker.com/linux/debian/gpg
+    dest: /usr/share/keyrings/docker-archive-keyring.gpg
 
 - name: Add Docker repository
   become: yes
