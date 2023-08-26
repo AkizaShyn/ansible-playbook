@@ -1,9 +1,9 @@
 ---
 - name: Add Docker repository key
   become: yes
-  ansible.builtin.get_url:
+  ansible.builtin.apt_key:
     url: https://download.docker.com/linux/debian/gpg
-    dest: /usr/share/keyrings/docker-archive-keyring.gpg
+    state: present
 
 - name: Add Docker repository
   become: yes
