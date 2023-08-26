@@ -1,4 +1,10 @@
 ---
+- name: Install gnupg
+  become: yes
+  ansible.builtin.apt:
+    name: gnupg
+    state: present
+
 - name: Add Docker repository key
   become: yes
   ansible.builtin.apt_key:
