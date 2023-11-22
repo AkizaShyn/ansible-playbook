@@ -1,0 +1,11 @@
+---
+# defaults file for proxmox_vm_creation
+proxmox_vm_id: 100
+proxmox_template_id: 9000
+proxmox_vm_name: my_vm
+proxmox_storage: local-lvm
+proxmox_node: proxmox-node
+proxmox_cores: 2
+proxmox_memory: 2048
+proxmox_network: virtio0=vmbr0
+discord_webhook_url: "https://discord.com/api/webhooks/1174974814600056884/3Xsg7dJPVTQsHv5FkP9mpsh_JwkRDpGBdPUzve95bzpJluYCNK6moEQj1JEG1gcfE6c-"

@@ -1,0 +1,7 @@
+---
+- name: Playbook to Create Proxmox VM and Notify Discord
+  hosts: all
+  gather_facts: true
+  become: true
+  roles:
+    - proxmox_vm_creation

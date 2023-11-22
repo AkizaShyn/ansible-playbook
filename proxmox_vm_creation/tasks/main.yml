@@ -1,0 +1,43 @@
+---
+# tasks file for proxmox_vm_creation
+- name: Create Proxmox VM
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Clone VM from Template
+      proxmox_kvm:
+        vmid: "{{ proxmox_vm_id }}"
+        clone: "{{ proxmox_template_id }}"
+        name: "{{ proxmox_vm_name }}"
+        storage: "{{ proxmox_storage }}"
+        node: "{{ proxmox_node }}"
+        cores: "{{ proxmox_cores }}"
+        memory: "{{ proxmox_memory }}"
+        net: "{{ proxmox_network }}"
+        onboot: yes
+        state: started
+      delegate_to: localhost
+      register: vm_creation_result
+
+    - name: Get VM Information
+      proxmox_kvm_info:
+        vmid: "{{ proxmox_vm_id }}"
+      delegate_to: localhost
+      register: vm_info_result
+
+    - name: Start VM
+      proxmox_kvm:
+        vmid: "{{ proxmox_vm_id }}"
+        state: started
+      delegate_to: localhost
+      when: not vm_info_result.proxmox_vm_is_running
+
+    - name: Notify Discord
+      uri:
+        url: "{{ discord_webhook_url }}"
+        method: POST
+        body: "VM {{ proxmox_vm_name }} created successfully!\nVM ID: {{ vm_creation_result.proxmox_vm_id }}\nIP Address: {{ vm_info_result.proxmox_vm_ip }}\nCPU: {{ vm_info_result.proxmox_vm_cpu }}\nMemory: {{ vm_info_result.proxmox_vm_memory }} MB\nDisk Size: {{ vm_info_result.proxmox_vm_disk_size }} GB\nStatus: {{ 'Running' if vm_info_result.proxmox_vm_is_running else 'Stopped' }}"
+        body_format: raw
+        status_code: 200
+        validate_certs: no
+      when: vm_creation_result.changed
